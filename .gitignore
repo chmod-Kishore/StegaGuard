@@ -54,3 +54,6 @@ GE Precision Care Research papers/
 
 # Test model (large binary — download separately)
 stegaguard/test_model.safetensors
+
+# Agents
+.agents/

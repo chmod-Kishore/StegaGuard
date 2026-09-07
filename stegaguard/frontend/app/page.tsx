@@ -1,47 +1,39 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Shield } from "lucide-react";
-import UploadZone from "@/components/upload-zone";
-import { uploadModel } from "@/lib/api";
+import { useState } from "react";
+import TopBar from "@/components/stegaguard/top-bar";
+import Hero from "@/components/stegaguard/hero";
+import UploadZone from "@/components/stegaguard/upload-zone";
+import ScanTerminal from "@/components/stegaguard/scan-terminal";
+import TelemetryStrip from "@/components/stegaguard/telemetry-strip";
 
 export default function HomePage() {
-  const router = useRouter();
-
-  async function handleUpload(file: File) {
-    const { scan_id } = await uploadModel(file);
-    router.push(`/scan/${scan_id}`);
-  }
+  const [fileToScan, setFileToScan] = useState<File | null>(null);
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-20 sm:py-28">
-      {/* Hero */}
-      <div className="mb-12 flex flex-col items-center text-center">
-        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-blue-600/10 ring-1 ring-blue-500/20">
-          <Shield className="h-10 w-10 text-blue-500" />
+    <div className="flex flex-col min-h-screen">
+      <TopBar />
+      
+      <div className="flex-1 flex flex-col pt-12 pb-24">
+        {!fileToScan && <Hero />}
+
+        <div className="flex-1 flex flex-col items-center justify-center px-4 w-full mt-8">
+          {!fileToScan ? (
+            <UploadZone onUpload={setFileToScan} />
+          ) : (
+            <ScanTerminal 
+              file={fileToScan} 
+              onReset={() => setFileToScan(null)} 
+            />
+          )}
         </div>
-        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          StegaGuard
-        </h1>
-        <p className="mt-3 text-lg text-gray-400 sm:text-xl">
-          AI Model Weight Integrity Scanner
-        </p>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-gray-500 sm:text-base">
-          Detect steganographic malware, backdoor triggers, and hidden payloads
-          in deep learning model weights
-        </p>
       </div>
 
-      {/* Upload Zone */}
-      <UploadZone onUpload={handleUpload} />
+      <TelemetryStrip />
 
-      {/* Supported Formats */}
-      <p className="mt-8 text-xs text-gray-600">
-        Supported formats:{" "}
-        <span className="text-gray-500">
-          .safetensors, .pt, .pth, .onnx
-        </span>
-      </p>
+      <footer className="w-full bg-background py-6 text-center text-dim font-mono text-xs border-t border-border">
+        StegaGuard Framework v2.4.1 // DEPLOYMENT_ACTIVE // PROD_ENVIRONMENT
+      </footer>
     </div>
   );
 }

@@ -4,52 +4,69 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 0 0% 0%; /* Pure black */
+    --foreground: 0 0% 88%; /* Light gray E0E0E0 */
+    --card: 135 23% 6%; /* #0C130E */
+    --card-foreground: 0 0% 88%;
+    --popover: 135 23% 6%;
+    --popover-foreground: 0 0% 88%;
+    --primary: 135 100% 50%; /* Matrix Green #00FF41 */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 135 23% 6%;
+    --secondary-foreground: 135 100% 50%;
+    --muted: 135 10% 15%;
+    --muted-foreground: 215 20% 65%; /* Dim #94A3B8 */
+    --accent: 135 100% 20%; /* Dark matrix */
+    --accent-foreground: 135 100% 50%;
+    --destructive: 0 84% 60%; /* Alert Red #EF4444 */
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --radius: 0.5rem;
-  }
-
-  * {
-    @apply border-gray-800;
+    --border: 215 28% 17%; /* #1F2937 */
+    --input: 215 28% 17%;
+    --ring: 135 100% 50%;
+    --radius: 0.25rem; /* More angular for cyberpunk */
   }
 
   body {
-    @apply bg-gray-950 text-white;
+    @apply bg-background text-foreground font-sans antialiased min-h-screen overflow-x-hidden;
   }
 }
 
-/* Custom scrollbar for dark theme */
+/* Custom scrollbar for cyberpunk theme */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: #000000;
+  border-left: 1px solid #1F2937;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
+  background: #003B00;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #00FF41;
 }
+
+/* Scanline Overlay Utility */
+.scanlines::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 50;
+  pointer-events: none;
+}
+
